@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Shop - StudyCart</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/output.css"
+    >
+
+</head>
+
+
+<body class="bg-gray-50 min-h-screen">
+
+
+    <%- include("partials/navbar") %>
+
+
+    <main class="max-w-7xl mx-auto px-8 py-10">
+
+
+        <!-- HEADER -->
+
+        <div class="mb-8">
+
+            <h1 class="text-3xl font-bold text-gray-800">
+                Shop
+            </h1>
+
+            <p class="text-gray-500 mt-2">
+                Browse our school supplies and find what you need.
+            </p>
+
+        </div>
+
+
+
+        <!-- SEARCH AND FILTER -->
+
+        <div
+            class="bg-white border border-gray-200 rounded-xl p-6 mb-8"
+        >
+
+            <form
+                action="/shop"
+                method="GET"
+                class="grid grid-cols-1 md:grid-cols-3 gap-4"
+            >
+
+                <!-- SEARCH -->
+
+                <div class="md:col-span-2">
+
+                    <label
+                        for="search"
+                        class="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                        Search Products
+                    </label>
+
+                    <input
+                        type="text"
+                        id="search"
+                        name="search"
+                        value="<%= typeof search !== 'undefined' ? search : '' %>"
+                        placeholder="Search for school supplies..."
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+
+                </div>
+
+
+
+                <!-- CATEGORY -->
+
+                <div>
+
+                    <label
+                        for="category"
+                        class="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+
+                        <option
+                            value=""
+                            <%= typeof category !== 'undefined' && !category ? "selected" : "" %>
+                        >
+                            All Categories
+                        </option>
+
+
+                        <% if (typeof categories !== 'undefined') { %>
+
+                            <% categories.forEach(item => { %>
+
+                                <option
+                                    value="<%= item.id %>"
+                                    <%= typeof category !== 'undefined' && String(category) === String(item.id) ? "selected" : "" %>
+                                >
+                                    <%= item.name %>
+                                </option>
+
+                            <% }) %>
+
+                        <% } %>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div
+                    class="md:col-span-3 flex flex-wrap gap-3"
+                >
+
+                    <button
+                        type="submit"
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold"
+                    >
+                        Search
+                    </button>
+
+
+                    <a
+                        href="/shop"
+                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold"
+                    >
+                        Clear
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- PRODUCTS -->
+
+        <% if (!products || products.length === 0) { %>
+
+            <div
+                class="bg-white border border-gray-200 rounded-xl p-10 text-center"
+            >
+
+                <h2
+                    class="text-xl font-bold text-gray-800"
+                >
+                    No products found
+                </h2>
+
+                <p class="text-gray-500 mt-2">
+                    Try changing your search or category filter.
+                </p>
+
+            </div>
+
+        <% } else { %>
+
+
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            >
+
+                <% products.forEach(product => { %>
+
+
+                    <div
+                        class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition"
+                    >
+
+
+                        <!-- PRODUCT IMAGE -->
+
+                        <a
+                            href="/shop/product/<%= product.id %>"
+                            class="block"
+                        >
+
+                            <% if (product.image) { %>
+
+                                <img
+                                    src="/images/products/<%= product.image %>"
+                                    alt="<%= product.name %>"
+                                    class="w-full h-56 object-contain bg-gray-50 p-6"
+                                >
+
+                            <% } else { %>
+
+                                <div
+                                    class="w-full h-56 bg-gray-100 flex items-center justify-center"
+                                >
+
+                                    <span class="text-gray-400">
+                                        No Image
+                                    </span>
+
+                                </div>
+
+                            <% } %>
+
+                        </a>
+
+
+
+                        <!-- PRODUCT INFORMATION -->
+
+                        <div class="p-5">
+
+
+                            <!-- CATEGORY -->
+
+                            <p
+                                class="text-sm text-green-600 font-medium"
+                            >
+                                <%= product.category_name || "" %>
+                            </p>
+
+
+                            <!-- PRODUCT NAME -->
+
+                            <h2
+                                class="text-lg font-bold text-gray-800 mt-1"
+                            >
+                                <%= product.name %>
+                            </h2>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <p
+                                class="text-gray-500 text-sm mt-2 line-clamp-2"
+                            >
+                                <%= product.description %>
+                            </p>
+
+
+                            <!-- PRICE -->
+
+                            <div
+                                class="flex items-center justify-between mt-5"
+                            >
+
+                                <p
+                                    class="text-xl font-bold text-gray-800"
+                                >
+                                    ₱<%= Number(product.price).toFixed(2) %>
+                                </p>
+
+
+                                <a
+                                    href="/shop/product/<%= product.id %>"
+                                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold text-sm"
+                                >
+                                    View
+                                </a>
+
+                            </div>
+
+
+                            <!-- STOCK -->
+
+                            <p
+                                class="text-sm text-gray-500 mt-3"
+                            >
+                                Stock: <%= product.stock %>
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                <% }) %>
+
+            </div>
+
+
+        <% } %>
+
+
+    </main>
+
+
+</body>
+
+</html>

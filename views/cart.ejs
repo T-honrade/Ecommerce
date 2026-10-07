@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Shopping Cart - StudyCart</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/output.css"
+    >
+
+</head>
+
+
+<body class="bg-gray-50 min-h-screen">
+
+
+    <%- include("partials/navbar") %>
+
+
+    <main class="max-w-7xl mx-auto px-8 py-10">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="mb-8">
+
+            <h1 class="text-3xl font-bold text-gray-800">
+                Shopping Cart
+            </h1>
+
+            <p class="text-gray-500 mt-2">
+                Review your selected school supplies before checkout.
+            </p>
+
+        </div>
+
+
+
+        <% if (!cart || cart.length === 0) { %>
+
+
+            <!-- EMPTY CART -->
+
+            <div
+                class="bg-white border border-gray-200 rounded-xl p-12 text-center"
+            >
+
+                <div class="text-5xl mb-4">
+                    🛒
+                </div>
+
+                <h2
+                    class="text-2xl font-bold text-gray-800"
+                >
+                    Your cart is empty
+                </h2>
+
+                <p class="text-gray-500 mt-2">
+                    You haven't added any products yet.
+                </p>
+
+                <a
+                    href="/shop"
+                    class="inline-block mt-6 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold"
+                >
+                    Continue Shopping
+                </a>
+
+            </div>
+
+
+        <% } else { %>
+
+
+            <div
+                class="grid grid-cols-1 lg:grid-cols-3 gap-8"
+            >
+
+
+                <!-- CART ITEMS -->
+
+                <div
+                    class="lg:col-span-2 space-y-4"
+                >
+
+
+                    <% cart.forEach(item => { %>
+
+
+                        <div
+                            class="bg-white border border-gray-200 rounded-xl p-5"
+                        >
+
+
+                            <div
+                                class="flex flex-col sm:flex-row gap-5"
+                            >
+
+
+                                <!-- PRODUCT IMAGE -->
+
+                                <div
+                                    class="w-full sm:w-32 h-32 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden"
+                                >
+
+                                    <% if (item.image) { %>
+
+                                        <img
+                                            src="/images/products/<%= item.image %>"
+                                            alt="<%= item.name %>"
+                                            class="w-full h-full object-contain p-3"
+                                        >
+
+                                    <% } else { %>
+
+                                        <span
+                                            class="text-gray-400 text-sm"
+                                        >
+                                            No Image
+                                        </span>
+
+                                    <% } %>
+
+                                </div>
+
+
+
+                                <!-- PRODUCT INFORMATION -->
+
+                                <div
+                                    class="flex-1"
+                                >
+
+                                    <p
+                                        class="text-sm text-green-600 font-medium"
+                                    >
+                                        <%= item.category_name || "" %>
+                                    </p>
+
+
+                                    <h2
+                                        class="text-xl font-bold text-gray-800 mt-1"
+                                    >
+                                        <%= item.name %>
+                                    </h2>
+
+
+                                    <p
+                                        class="text-gray-500 mt-1"
+                                    >
+                                        ₱<%= Number(item.price).toFixed(2) %>
+                                        each
+                                    </p>
+
+
+
+                                    <!-- QUANTITY + REMOVE -->
+
+                                    <div
+                                        class="flex flex-wrap items-center justify-between gap-4 mt-5"
+                                    >
+
+
+                                        <form
+                                            action="/cart/update"
+                                            method="POST"
+                                            class="flex items-center gap-2"
+                                        >
+
+                                            <input
+                                                type="hidden"
+                                                name="product_id"
+                                                value="<%= item.product_id %>"
+                                            >
+
+
+                                            <label
+                                                for="quantity-<%= item.product_id %>"
+                                                class="text-sm font-medium text-gray-700"
+                                            >
+                                                Quantity
+                                            </label>
+
+
+                                            <input
+                                                id="quantity-<%= item.product_id %>"
+                                                type="number"
+                                                name="quantity"
+                                                value="<%= item.quantity %>"
+                                                min="1"
+                                                max="<%= item.stock %>"
+                                                class="w-20 border border-gray-300 rounded-lg px-3 py-2 text-center focus:outline-none focus:ring-2 focus:ring-green-500"
+                                            >
+
+
+                                            <button
+                                                type="submit"
+                                                class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold text-sm"
+                                            >
+                                                Update
+                                            </button>
+
+                                        </form>
+
+
+
+                                        <form
+                                            action="/cart/remove"
+                                            method="POST"
+                                        >
+
+                                            <input
+                                                type="hidden"
+                                                name="product_id"
+                                                value="<%= item.product_id %>"
+                                            >
+
+
+                                            <button
+                                                type="submit"
+                                                class="text-red-500 hover:text-red-600 font-medium text-sm"
+                                            >
+                                                Remove
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- ITEM TOTAL -->
+
+                                <div
+                                    class="sm:text-right"
+                                >
+
+                                    <p
+                                        class="text-sm text-gray-500"
+                                    >
+                                        Subtotal
+                                    </p>
+
+
+                                    <p
+                                        class="text-xl font-bold text-gray-800 mt-1"
+                                    >
+                                        ₱<%= Number(item.price * item.quantity).toFixed(2) %>
+                                    </p>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                    <% }) %>
+
+
+                </div>
+
+
+
+                <!-- ORDER SUMMARY -->
+
+                <div>
+
+
+                    <div
+                        class="bg-white border border-gray-200 rounded-xl p-6 sticky top-6"
+                    >
+
+                        <h2
+                            class="text-xl font-bold text-gray-800"
+                        >
+                            Order Summary
+                        </h2>
+
+
+                        <div
+                            class="border-t border-gray-100 mt-5 pt-5"
+                        >
+
+
+                            <div
+                                class="flex justify-between text-gray-600"
+                            >
+
+                                <span>
+                                    Items
+                                </span>
+
+                                <span>
+                                    <%= cart.reduce((total, item) => total + item.quantity, 0) %>
+                                </span>
+
+                            </div>
+
+
+
+                            <div
+                                class="flex justify-between mt-3 text-gray-600"
+                            >
+
+                                <span>
+                                    Subtotal
+                                </span>
+
+                                <span>
+                                    ₱<%= Number(total).toFixed(2) %>
+                                </span>
+
+                            </div>
+
+
+
+                            <div
+                                class="flex justify-between mt-3 text-gray-600"
+                            >
+
+                                <span>
+                                    Delivery
+                                </span>
+
+                                <span>
+                                    Free
+                                </span>
+
+                            </div>
+
+
+
+                            <div
+                                class="border-t border-gray-100 mt-5 pt-5 flex justify-between"
+                            >
+
+                                <span
+                                    class="text-lg font-bold text-gray-800"
+                                >
+                                    Total
+                                </span>
+
+                                <span
+                                    class="text-2xl font-bold text-green-600"
+                                >
+                                    ₱<%= Number(total).toFixed(2) %>
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- CHECKOUT -->
+
+                        <a
+                            href="/checkout"
+                            class="block text-center w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold mt-6"
+                        >
+                            Proceed to Checkout
+                        </a>
+
+
+
+                        <!-- CONTINUE SHOPPING -->
+
+                        <a
+                            href="/shop"
+                            class="block text-center w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold mt-3"
+                        >
+                            Continue Shopping
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        <% } %>
+
+
+    </main>
+
+
+</body>
+
+</html>

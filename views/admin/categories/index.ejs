@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Categories - StudyCart Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/output.css"
+    >
+</head>
+
+<body class="min-h-screen bg-gray-50">
+
+    <%- include("../../partials/navbar") %>
+
+    <main class="mx-auto max-w-7xl px-6 py-10">
+
+        <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+
+            <div>
+
+                <h1 class="text-3xl font-bold text-gray-900">
+                    Categories
+                </h1>
+
+                <p class="mt-2 text-gray-600">
+                    Manage your StudyCart product categories.
+                </p>
+
+            </div>
+
+            <a
+                href="/admin/categories/add"
+                class="rounded-lg bg-green-600 px-5 py-3 text-center font-semibold text-white hover:bg-green-700"
+            >
+                + Add Category
+            </a>
+
+        </div>
+
+        <div class="overflow-hidden rounded-xl bg-white shadow-sm">
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full text-left">
+
+                    <thead class="border-b bg-gray-50">
+
+                        <tr>
+
+                            <th class="px-6 py-4 text-sm font-semibold text-gray-700">
+                                ID
+                            </th>
+
+                            <th class="px-6 py-4 text-sm font-semibold text-gray-700">
+                                Name
+                            </th>
+
+                            <th class="px-6 py-4 text-sm font-semibold text-gray-700">
+                                Description
+                            </th>
+
+                            <th class="px-6 py-4 text-sm font-semibold text-gray-700">
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="divide-y">
+
+                        <% if (categories.length === 0) { %>
+
+                            <tr>
+
+                                <td
+                                    colspan="4"
+                                    class="px-6 py-10 text-center text-gray-500"
+                                >
+                                    No categories found.
+                                </td>
+
+                            </tr>
+
+                        <% } %>
+
+                        <% categories.forEach(category => { %>
+
+                            <tr class="hover:bg-gray-50">
+
+                                <td class="px-6 py-4 text-gray-600">
+                                    <%= category.id %>
+                                </td>
+
+                                <td class="px-6 py-4 font-medium text-gray-900">
+                                    <%= category.name %>
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-600">
+                                    <%= category.description || "No description" %>
+                                </td>
+
+                                <td class="px-6 py-4">
+
+                                    <div class="flex gap-3">
+
+                                        <a
+                                            href="/admin/categories/edit/<%= category.id %>"
+                                            class="font-medium text-green-600 hover:text-green-700"
+                                        >
+                                            Edit
+                                        </a>
+
+                                        <form
+                                            action="/admin/categories/delete/<%= category.id %>"
+                                            method="POST"
+                                            onsubmit="return confirm('Delete this category?');"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="font-medium text-red-600 hover:text-red-700"
+                                            >
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        <% }) %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="mt-6">
+
+            <a
+                href="/admin/dashboard"
+                class="text-sm font-medium text-green-600 hover:text-green-700"
+            >
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

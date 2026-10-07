@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Order Successful - StudyCart</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/output.css"
+    >
+
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+    <%- include("partials/navbar") %>
+
+
+    <main
+        class="max-w-2xl mx-auto px-6 py-16"
+    >
+
+        <div
+            class="bg-white rounded-2xl shadow-sm p-8 md:p-12 text-center"
+        >
+
+            <!-- Success Icon -->
+
+            <div
+                class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+
+                <span
+                    class="text-4xl text-green-600"
+                >
+                    ✓
+                </span>
+
+            </div>
+
+
+            <!-- Heading -->
+
+            <h1
+                class="text-3xl font-bold text-gray-800"
+            >
+                Order Placed Successfully!
+            </h1>
+
+
+            <p
+                class="text-gray-500 mt-3"
+            >
+                Thank you for shopping with StudyCart.
+            </p>
+
+
+            <!-- Order Number -->
+
+            <div
+                class="bg-gray-50 rounded-xl p-5 mt-8"
+            >
+
+                <p
+                    class="text-sm text-gray-500"
+                >
+                    Order Number
+                </p>
+
+                <p
+                    class="text-2xl font-bold text-green-600 mt-1"
+                >
+                    #<%= order.id %>
+                </p>
+
+            </div>
+
+
+            <!-- Order Details -->
+
+            <div
+                class="text-left border-t border-gray-200 mt-8 pt-6 space-y-4"
+            >
+
+                <div
+                    class="flex justify-between"
+                >
+
+                    <span
+                        class="text-gray-500"
+                    >
+                        Payment Method
+                    </span>
+
+                    <span
+                        class="font-semibold text-gray-800"
+                    >
+                        <%= order.payment_method %>
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="flex justify-between"
+                >
+
+                    <span
+                        class="text-gray-500"
+                    >
+                        Status
+                    </span>
+
+                    <span
+                        class="font-semibold text-yellow-600"
+                    >
+                        <%= order.status %>
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="flex justify-between"
+                >
+
+                    <span
+                        class="text-gray-500"
+                    >
+                        Total
+                    </span>
+
+                    <span
+                        class="font-bold text-green-600"
+                    >
+                        ₱<%= Number(order.total_amount).toFixed(2) %>
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div
+                class="flex flex-col sm:flex-row gap-3 mt-8"
+            >
+
+                <a
+                    href="/shop"
+                    class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold"
+                >
+                    Continue Shopping
+                </a>
+
+                <a
+                    href="/orders"
+                    class="flex-1 border border-green-600 text-green-600 hover:bg-green-50 py-3 rounded-lg font-semibold"
+                >
+                    My Orders
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Orders - StudyCart</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/output.css"
+    >
+
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+    <%- include("partials/navbar") %>
+
+
+    <main class="max-w-6xl mx-auto px-6 py-10">
+
+        <!-- Page Header -->
+
+        <div class="mb-8">
+
+            <h1
+                class="text-3xl font-bold text-gray-800"
+            >
+                My Orders
+            </h1>
+
+            <p class="text-gray-500 mt-2">
+                View and track your StudyCart orders.
+            </p>
+
+        </div>
+
+
+        <% if (orders.length === 0) { %>
+
+            <!-- No Orders -->
+
+            <div
+                class="bg-white rounded-xl shadow-sm p-12 text-center"
+            >
+
+                <div class="text-6xl mb-5">
+                    📦
+                </div>
+
+                <h2
+                    class="text-2xl font-bold text-gray-800"
+                >
+                    No Orders Yet
+                </h2>
+
+                <p
+                    class="text-gray-500 mt-2 mb-6"
+                >
+                    You haven't placed any orders yet.
+                </p>
+
+                <a
+                    href="/shop"
+                    class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold"
+                >
+                    Start Shopping
+                </a>
+
+            </div>
+
+
+        <% } else { %>
+
+
+            <!-- Orders List -->
+
+            <div class="space-y-5">
+
+                <% orders.forEach(order => { %>
+
+                    <div
+                        class="bg-white rounded-xl shadow-sm p-6"
+                    >
+
+                        <div
+                            class="flex flex-col md:flex-row md:items-center md:justify-between gap-5"
+                        >
+
+
+                            <!-- Order Information -->
+
+                            <div>
+
+                                <p
+                                    class="text-sm text-gray-500"
+                                >
+                                    Order Number
+                                </p>
+
+                                <h2
+                                    class="text-xl font-bold text-gray-800"
+                                >
+                                    #<%= order.id %>
+                                </h2>
+
+
+                                <p
+                                    class="text-sm text-gray-500 mt-2"
+                                >
+                                    <%= new Date(
+                                        order.created_at
+                                    ).toLocaleString() %>
+                                </p>
+
+                            </div>
+
+
+                            <!-- Status -->
+
+                            <div>
+
+                                <p
+                                    class="text-sm text-gray-500 mb-1"
+                                >
+                                    Status
+                                </p>
+
+
+                                <% if (order.status === "Pending") { %>
+
+                                    <span
+                                        class="inline-block bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold"
+                                    >
+                                        Pending
+                                    </span>
+
+
+                                <% } else if (order.status === "Processing") { %>
+
+                                    <span
+                                        class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold"
+                                    >
+                                        Processing
+                                    </span>
+
+
+                                <% } else if (order.status === "Shipped") { %>
+
+                                    <span
+                                        class="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold"
+                                    >
+                                        Shipped
+                                    </span>
+
+
+                                <% } else if (order.status === "Completed") { %>
+
+                                    <span
+                                        class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold"
+                                    >
+                                        Completed
+                                    </span>
+
+
+                                <% } else if (order.status === "Cancelled") { %>
+
+                                    <span
+                                        class="inline-block bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold"
+                                    >
+                                        Cancelled
+                                    </span>
+
+
+                                <% } %>
+
+                            </div>
+
+
+                            <!-- Total -->
+
+                            <div>
+
+                                <p
+                                    class="text-sm text-gray-500"
+                                >
+                                    Total
+                                </p>
+
+                                <p
+                                    class="text-xl font-bold text-green-600"
+                                >
+                                    ₱<%= Number(
+                                        order.total_amount
+                                    ).toFixed(2) %>
+                                </p>
+
+                            </div>
+
+
+                            <!-- View Order -->
+
+                            <div>
+
+                                <a
+                                    href="/orders/<%= order.id %>"
+                                    class="inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-semibold text-sm"
+                                >
+                                    View Order
+                                </a>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                <% }); %>
+
+            </div>
+
+
+        <% } %>
+
+    </main>
+
+</body>
+
+</html>

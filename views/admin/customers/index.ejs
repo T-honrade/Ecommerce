@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Customers - StudyCart</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/output.css"
+    >
+
+</head>
+
+
+<body class="bg-gray-50 min-h-screen">
+
+
+    <%- include("../../partials/navbar") %>
+
+
+    <main class="max-w-7xl mx-auto px-8 py-10">
+
+
+        <!-- HEADER -->
+
+        <div
+            class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8"
+        >
+
+            <div>
+
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Customers
+                </h1>
+
+                <p class="text-gray-500 mt-2">
+                    Manage registered StudyCart customers.
+                </p>
+
+            </div>
+
+
+            <a
+                href="/admin/dashboard"
+                class="text-green-600 font-semibold hover:text-green-700"
+            >
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+
+        <!-- SEARCH AND FILTER -->
+
+        <div
+            class="bg-white border border-gray-200 rounded-xl p-6 mb-6"
+        >
+
+            <form
+                action="/admin/customers"
+                method="GET"
+                class="grid grid-cols-1 md:grid-cols-3 gap-4"
+            >
+
+
+                <!-- SEARCH -->
+
+                <div class="md:col-span-2">
+
+                    <label
+                        for="search"
+                        class="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                        Search Customer
+                    </label>
+
+                    <input
+                        type="text"
+                        id="search"
+                        name="search"
+                        value="<%= search %>"
+                        placeholder="Search by name or email..."
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+
+                </div>
+
+
+
+                <!-- ROLE -->
+
+                <div>
+
+                    <label
+                        for="role"
+                        class="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                        Role
+                    </label>
+
+                    <select
+                        id="role"
+                        name="role"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+
+                        <option
+                            value=""
+                            <%= role === "" ? "selected" : "" %>
+                        >
+                            All Roles
+                        </option>
+
+                        <option
+                            value="customer"
+                            <%= role === "customer" ? "selected" : "" %>
+                        >
+                            Customers
+                        </option>
+
+                        <option
+                            value="admin"
+                            <%= role === "admin" ? "selected" : "" %>
+                        >
+                            Admins
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div
+                    class="md:col-span-3 flex flex-wrap gap-3"
+                >
+
+                    <button
+                        type="submit"
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold"
+                    >
+                        Search
+                    </button>
+
+
+                    <a
+                        href="/admin/customers"
+                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold"
+                    >
+                        Clear
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+
+
+        <!-- CUSTOMER TABLE -->
+
+        <div
+            class="bg-white border border-gray-200 rounded-xl overflow-hidden"
+        >
+
+            <% if (customers.length === 0) { %>
+
+                <div class="p-10 text-center">
+
+                    <h2
+                        class="text-xl font-bold text-gray-800"
+                    >
+                        No customers found
+                    </h2>
+
+                    <p class="text-gray-500 mt-2">
+                        Try changing your search or filter.
+                    </p>
+
+                </div>
+
+            <% } else { %>
+
+
+                <div class="overflow-x-auto">
+
+                    <table class="w-full text-left">
+
+                        <thead
+                            class="bg-gray-50 border-b border-gray-200"
+                        >
+
+                            <tr>
+
+                                <th
+                                    class="px-6 py-4 text-sm font-semibold text-gray-600"
+                                >
+                                    ID
+                                </th>
+
+                                <th
+                                    class="px-6 py-4 text-sm font-semibold text-gray-600"
+                                >
+                                    Customer
+                                </th>
+
+                                <th
+                                    class="px-6 py-4 text-sm font-semibold text-gray-600"
+                                >
+                                    Email
+                                </th>
+
+                                <th
+                                    class="px-6 py-4 text-sm font-semibold text-gray-600"
+                                >
+                                    Role
+                                </th>
+
+                                <th
+                                    class="px-6 py-4 text-sm font-semibold text-gray-600"
+                                >
+                                    Orders
+                                </th>
+
+                                <th
+                                    class="px-6 py-4 text-sm font-semibold text-gray-600"
+                                >
+                                    Registered
+                                </th>
+
+                                <th
+                                    class="px-6 py-4 text-sm font-semibold text-gray-600"
+                                >
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <% customers.forEach(customer => { %>
+
+                                <tr
+                                    class="border-b border-gray-100 last:border-0 hover:bg-gray-50"
+                                >
+
+                                    <td
+                                        class="px-6 py-4 text-gray-700"
+                                    >
+                                        #<%= customer.id %>
+                                    </td>
+
+
+                                    <td
+                                        class="px-6 py-4 font-semibold text-gray-800"
+                                    >
+                                        <%= customer.name %>
+                                    </td>
+
+
+                                    <td
+                                        class="px-6 py-4 text-gray-600"
+                                    >
+                                        <%= customer.email %>
+                                    </td>
+
+
+                                    <td class="px-6 py-4">
+
+                                        <% if (customer.role === "admin") { %>
+
+                                            <span
+                                                class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold"
+                                            >
+                                                Admin
+                                            </span>
+
+                                        <% } else { %>
+
+                                            <span
+                                                class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold"
+                                            >
+                                                Customer
+                                            </span>
+
+                                        <% } %>
+
+                                    </td>
+
+
+                                    <td
+                                        class="px-6 py-4 text-gray-700"
+                                    >
+                                        <%= customer.order_count %>
+                                    </td>
+
+
+                                    <td
+                                        class="px-6 py-4 text-gray-600"
+                                    >
+                                        <%= new Date(
+                                            customer.created_at
+                                        ).toLocaleDateString() %>
+                                    </td>
+
+
+                                    <td class="px-6 py-4">
+
+                                        <% if (customer.role !== "admin") { %>
+
+                                            <form
+                                                action="/admin/customers/delete/<%= customer.id %>"
+                                                method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this customer?');"
+                                            >
+
+                                                <button
+                                                    type="submit"
+                                                    class="text-red-500 hover:text-red-700 font-semibold"
+                                                >
+                                                    Delete
+                                                </button>
+
+                                            </form>
+
+                                        <% } else { %>
+
+                                            <span
+                                                class="text-gray-400 text-sm"
+                                            >
+                                                Protected
+                                            </span>
+
+                                        <% } %>
+
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            <% } %>
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>StudyCart - School Supplies Store</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/output.css"
+    >
+</head>
+
+<body class="min-h-screen bg-gray-50">
+
+    <!-- Navbar -->
+    <%- include("partials/navbar") %>
+
+    <!-- Hero -->
+    <main>
+
+        <section class="bg-green-50">
+
+            <div class="mx-auto max-w-7xl px-6 py-20">
+
+                <div class="max-w-2xl">
+
+                    <p class="mb-4 font-semibold text-green-600">
+                        SCHOOL SUPPLIES E-COMMERCE
+                    </p>
+
+                    <h1 class="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
+                        Everything you need for school, all in one place.
+                    </h1>
+
+                    <p class="mt-6 text-lg leading-8 text-gray-600">
+                        Shop school supplies, stationery, bags, art materials,
+                        and other essentials through StudyCart.
+                    </p>
+
+                    <div class="mt-8 flex flex-wrap gap-4">
+
+                        <a
+                            href="/shop"
+                            class="rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition hover:bg-green-700"
+                        >
+                            Browse Products
+                        </a>
+
+                        <% if (!user) { %>
+
+                            <a
+                                href="/register"
+                                class="rounded-lg border border-green-600 px-6 py-3 font-semibold text-green-700 transition hover:bg-green-100"
+                            >
+                                Create Account
+                            </a>
+
+                        <% } %>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Features -->
+        <section class="mx-auto max-w-7xl px-6 py-16">
+
+            <div class="mb-10 text-center">
+
+                <h2 class="text-3xl font-bold text-gray-900">
+                    Why Shop with StudyCart?
+                </h2>
+
+                <p class="mt-3 text-gray-600">
+                    A simple way to find and order your school essentials.
+                </p>
+
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-3">
+
+                <div class="rounded-xl bg-white p-6 shadow-sm">
+                    <div class="mb-4 text-3xl">
+                        📚
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        School Essentials
+                    </h3>
+
+                    <p class="mt-2 text-gray-600">
+                        Find common school supplies and materials in one store.
+                    </p>
+                </div>
+
+                <div class="rounded-xl bg-white p-6 shadow-sm">
+                    <div class="mb-4 text-3xl">
+                        🛒
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Easy Shopping
+                    </h3>
+
+                    <p class="mt-2 text-gray-600">
+                        Browse products, add items to your cart, and place an order.
+                    </p>
+                </div>
+
+                <div class="rounded-xl bg-white p-6 shadow-sm">
+                    <div class="mb-4 text-3xl">
+                        📦
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Track Orders
+                    </h3>
+
+                    <p class="mt-2 text-gray-600">
+                        Check your orders and view their current status.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-white">
+
+        <div class="mx-auto max-w-7xl px-6 py-6 text-center">
+
+            <p class="text-sm text-gray-500">
+                © 2026 StudyCart. School Supplies E-Commerce Store.
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

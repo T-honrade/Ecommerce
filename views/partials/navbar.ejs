@@ -1,0 +1,148 @@
+<nav class="bg-white border-b border-gray-200 shadow-sm">
+
+    <div class="max-w-7xl mx-auto px-8">
+
+        <div class="flex items-center h-24">
+
+
+            <!-- STUDYCART -->
+
+            <a
+                href="/"
+                class="text-3xl font-bold text-green-600 whitespace-nowrap"
+            >
+                StudyCart
+            </a>
+
+
+
+            <!-- NAVIGATION -->
+
+            <div class="flex items-center ml-16 space-x-10">
+
+                <a
+                    href="/"
+                    class="text-gray-700 hover:text-green-600 font-medium text-base whitespace-nowrap"
+                >
+                    Home
+                </a>
+
+
+                <a
+                    href="/shop"
+                    class="text-gray-700 hover:text-green-600 font-medium text-base whitespace-nowrap"
+                >
+                    Shop
+                </a>
+
+
+                <a
+                    href="/shop"
+                    class="text-gray-700 hover:text-green-600 font-medium text-base whitespace-nowrap"
+                >
+                    Categories
+                </a>
+
+
+                <a
+                    href="/cart"
+                    class="text-gray-700 hover:text-green-600 font-medium text-base whitespace-nowrap"
+                >
+                    Cart
+                </a>
+
+
+                <% if (user) { %>
+
+                    <a
+                        href="/orders"
+                        class="text-gray-700 hover:text-green-600 font-medium text-base whitespace-nowrap"
+                    >
+                        My Orders
+                    </a>
+
+                <% } %>
+
+            </div>
+
+
+
+            <!-- ACCOUNT -->
+
+            <div
+                class="ml-auto flex items-center space-x-8"
+            >
+
+                <% if (user) { %>
+
+
+                    <!-- PROFILE -->
+
+                    <a
+                        href="/profile"
+                        class="text-gray-600 hover:text-green-600 font-medium text-base whitespace-nowrap"
+                    >
+                        Hi, <%= user.name %>
+                    </a>
+
+
+
+                    <!-- ADMIN -->
+
+                    <% if (user.role === "admin") { %>
+
+                        <a
+                            href="/admin/dashboard"
+                            class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold whitespace-nowrap"
+                        >
+                            Admin
+                        </a>
+
+                    <% } %>
+
+
+
+                    <!-- LOGOUT -->
+
+                    <a
+                        href="/logout"
+                        class="text-red-500 hover:text-red-600 font-medium text-base whitespace-nowrap"
+                    >
+                        Logout
+                    </a>
+
+
+                <% } else { %>
+
+
+                    <!-- LOGIN -->
+
+                    <a
+                        href="/login"
+                        class="text-gray-700 hover:text-green-600 font-medium text-base whitespace-nowrap"
+                    >
+                        Login
+                    </a>
+
+
+
+                    <!-- REGISTER -->
+
+                    <a
+                        href="/register"
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold whitespace-nowrap"
+                    >
+                        Register
+                    </a>
+
+
+                <% } %>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</nav>

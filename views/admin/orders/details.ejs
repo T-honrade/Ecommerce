@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Order Details - StudyCart</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/output.css"
+    >
+
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- NAVBAR -->
+
+    <%- include("../../partials/navbar") %>
+
+
+    <main class="max-w-6xl mx-auto px-8 py-10">
+
+        <!-- HEADER -->
+
+        <div class="flex items-center justify-between mb-8">
+
+            <div>
+
+                <a
+                    href="/admin/orders"
+                    class="text-green-600 hover:text-green-700 font-medium"
+                >
+                    ← Back to Orders
+                </a>
+
+                <h1 class="text-3xl font-bold text-gray-800 mt-4">
+                    Order #<%= order.id %>
+                </h1>
+
+                <p class="text-gray-500 mt-1">
+                    <%= new Date(
+                        order.created_at
+                    ).toLocaleString() %>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ORDER STATUS -->
+
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
+
+            <h2 class="text-xl font-bold text-gray-800 mb-5">
+                Update Order Status
+            </h2>
+
+            <form
+                action="/admin/orders/<%= order.id %>/status"
+                method="POST"
+                class="flex items-center gap-4"
+            >
+
+                <select
+                    name="status"
+                    class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+
+                    <option
+                        value="Pending"
+                        <%= order.status === "Pending" ? "selected" : "" %>
+                    >
+                        Pending
+                    </option>
+
+                    <option
+                        value="Processing"
+                        <%= order.status === "Processing" ? "selected" : "" %>
+                    >
+                        Processing
+                    </option>
+
+                    <option
+                        value="Shipped"
+                        <%= order.status === "Shipped" ? "selected" : "" %>
+                    >
+                        Shipped
+                    </option>
+
+                    <option
+                        value="Completed"
+                        <%= order.status === "Completed" ? "selected" : "" %>
+                    >
+                        Completed
+                    </option>
+
+                    <option
+                        value="Cancelled"
+                        <%= order.status === "Cancelled" ? "selected" : "" %>
+                    >
+                        Cancelled
+                    </option>
+
+                </select>
+
+                <button
+                    type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold"
+                >
+                    Update Status
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- CUSTOMER INFORMATION -->
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+
+                <h2 class="text-xl font-bold text-gray-800 mb-5">
+                    Customer Information
+                </h2>
+
+                <div class="space-y-4">
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Name
+                        </p>
+
+                        <p class="font-medium text-gray-800">
+                            <%= order.customer_name %>
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Email
+                        </p>
+
+                        <p class="font-medium text-gray-800">
+                            <%= order.email %>
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Contact Number
+                        </p>
+
+                        <p class="font-medium text-gray-800">
+                            <%= order.contact_number %>
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Delivery Address
+                        </p>
+
+                        <p class="font-medium text-gray-800">
+                            <%= order.delivery_address %>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT -->
+
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+
+                <h2 class="text-xl font-bold text-gray-800 mb-5">
+                    Payment Information
+                </h2>
+
+                <div class="space-y-4">
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Payment Method
+                        </p>
+
+                        <p class="font-medium text-gray-800">
+                            <%= order.payment_method %>
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Current Status
+                        </p>
+
+                        <p class="font-medium text-green-600">
+                            <%= order.status %>
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Order Total
+                        </p>
+
+                        <p class="text-2xl font-bold text-green-600">
+                            ₱<%= Number(
+                                order.total_amount
+                            ).toFixed(2) %>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ORDER ITEMS -->
+
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+
+            <h2 class="text-xl font-bold text-gray-800 mb-6">
+                Order Items
+            </h2>
+
+            <div class="space-y-5">
+
+                <% items.forEach(item => { %>
+
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-5">
+
+                        <div class="flex items-center gap-4">
+
+                            <% if (item.image) { %>
+
+                                <img
+                                    src="/images/<%= item.image %>"
+                                    alt="<%= item.name %>"
+                                    class="w-20 h-20 object-cover rounded-lg border"
+                                >
+
+                            <% } else { %>
+
+                                <div class="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                                    📚
+                                </div>
+
+                            <% } %>
+
+                            <div>
+
+                                <h3 class="font-semibold text-gray-800">
+                                    <%= item.name %>
+                                </h3>
+
+                                <p class="text-gray-500 mt-1">
+                                    ₱<%= Number(
+                                        item.price
+                                    ).toFixed(2) %>
+                                    ×
+                                    <%= item.quantity %>
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <p class="font-bold text-gray-800">
+
+                            ₱<%= (
+                                Number(item.price) *
+                                Number(item.quantity)
+                            ).toFixed(2) %>
+
+                        </p>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="flex justify-between items-center pt-6 mt-6 border-t border-gray-200">
+
+                <span class="text-xl font-bold text-gray-800">
+                    Total
+                </span>
+
+                <span class="text-2xl font-bold text-green-600">
+                    ₱<%= Number(
+                        order.total_amount
+                    ).toFixed(2) %>
+                </span>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
